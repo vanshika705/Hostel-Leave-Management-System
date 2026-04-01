@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="text-center mb-4">Register</h3>
+        <form method="POST" action="/register">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Full Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Phone</label>
+                <input type="number" name="phone" class="form-control" required>
+            </div>
+
+            <!-- Aadhaar field -->
+            <div class="mb-3" id="aadhaar-field" style="display:none;">
+                <label>Aadhaar Number (Only for Caretaker/Warden)</label>
+                <input type="text" name="aadhaar" class="form-control" pattern="\d{12}" maxlength="12"
+       title="Enter exactly 12 digit Aadhaar number">
+            </div>
+
+            <!-- Password field with eye icon -->
+            <div class="mb-3">
+                <label>Password</label>
+                <div class="input-group">
+                    <input type="password" name="password" id="password" class="form-control" required>
+                    <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">👁️</span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Role</label>
+                <select name="role" class="form-select" required>
+                    <option>Student</option>
+                    <option>Caretaker</option>
+                    <option>Warden</option>
+                </select>
+            </div>
+
+            <button class="btn btn-success w-100">Register</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Toggle password visibility
+    function togglePassword() {
+        var pwd = document.getElementById("password");
+        if (pwd.type === "password") {
+            pwd.type = "text";
+        } else {
+            pwd.type = "password";
+        }
+    }
+
+    // Show Aadhaar field only for Auntie/Warden
+    const roleSelect = document.querySelector('select[name="role"]');
+    roleSelect.addEventListener('change', function() {
+        const aadhaarDiv = document.getElementById('aadhaar-field');
+        if (this.value === "Caretaker" || this.value === "Warden") {
+            aadhaarDiv.style.display = "block";
+        } else {
+            aadhaarDiv.style.display = "none";
+        }
+    });
+
+    // Trigger change event on page load in case role is pre-selected
+    roleSelect.dispatchEvent(new Event('change'));
+</script>
+
+</body>
+</html>

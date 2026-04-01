@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caretaker Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-primary">
+    <div class="container-fluid">
+        <span class="navbar-brand">Caretaker Dashboard</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm">Logout</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- ================= PENDING LEAVES ================= -->
+    <h4>Pending Leaves</h4>
+    <table class="table table-bordered shadow mb-4">
+        <thead class="table-light">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Student Name</th>
+                <th>Dates</th>
+                <th>Reason</th>
+                <th>Verification</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for leave in pending_leaves %}
+            <tr>
+                <td>{{ leave.sr_no }}</td>
+                <td>{{ leave.student_name }}</td>
+                <td>{{ leave.from_date }} to {{ leave.to_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td>
+                    <a href="{{ url_for('caretaker_verify', leave_id=leave.id) }}" class="btn btn-success btn-sm">Verify</a>
+                    <a href="{{ url_for('caretaker_reject', leave_id=leave.id) }}" class="btn btn-danger btn-sm">Reject</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No pending leaves</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- ================= LEAVE RECORDS ================= -->
+    <h4>Leave Records</h4>
+    <table class="table table-bordered shadow">
+        <thead class="table-light">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Student Name</th>
+                <th>Dates</th>
+                <th>Reason</th>
+                <th>Caretaker Status</th>
+                <th>Warden Status</th>
+                <th>Caretaker</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for leave in leave_records %}
+            <tr>
+                <td>{{ leave.sr_no }}</td>
+                <td>{{ leave.student_name }}</td>
+                <td>{{ leave.from_date }} to {{ leave.to_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td>
+                    {% if leave.caretaker_status == "Verified" %}
+                        <span class="badge bg-success">Verified</span>
+                    {% elif leave.caretaker_status == "Rejected" %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">{{ leave.caretaker_status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ leave.warden_status }}</td>
+                <td>{{ leave.verified_by }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7" class="text-center">No records yet</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

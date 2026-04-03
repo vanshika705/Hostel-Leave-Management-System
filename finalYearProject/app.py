@@ -39,6 +39,10 @@ db = SQLAlchemy(app)
 
 from models import *
 
+# # Create tables if missing
+# with app.app_context():
+#     db.create_all()
+
 # -------------------------
 # MODELS
 # -------------------------

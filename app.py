@@ -19,10 +19,26 @@ EMAIL_PASSWORD = "tyaoxqytreyuuii"
 # -------------------------
 # DATABASE CONFIG
 # -------------------------
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hostel_leave.db'
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# ensure instance folder exists
+instance_path = os.path.join(basedir, 'instance')
+os.makedirs(instance_path, exist_ok=True)
+
+# put DB inside instance
+db_path = os.path.join(instance_path, 'hostel_leave.db')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hostel_leave.db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+from finalyearproject import models  # your models
+from finalyearproject.routes import *
 
 # -------------------------
 # MODELS

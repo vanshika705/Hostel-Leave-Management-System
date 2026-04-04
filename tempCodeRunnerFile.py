@@ -37,7 +37,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from finalYearProject.models import *
+from finalyearproject import models  # your models
+from finalyearproject.routes import *
 
 # -------------------------
 # MODELS
